@@ -1,13 +1,13 @@
-![ARK Mobile](https://i.imgur.com/0BjkC9C.png)
+![KAPU Mobile](https://i.imgur.com/0BjkC9C.png)
 
-# Ark Mobile
+# Kapu Mobile
 > A Wallet for Everyone
 
-ARK’s mobile wallet is a hybrid application (using the same codebase for Android and iOS which helps with coordinated development). Created using Ionic framework and ARK’s [TypeScript API](https://github.com/ArkEcosystem/ark-ts) to interact with the ARK network via your mobile phone, anytime, anywhere (as long as you have an internet connection).
+KAPU’s mobile wallet is a hybrid application (using the same codebase for Android and iOS which helps with coordinated development). Created using Ionic framework and ARK’s [TypeScript API](https://github.com/ArkEcosystem/ark-ts) to interact with the ARK network via your mobile phone, anytime, anywhere (as long as you have an internet connection).
 
 ## Download
 
-- [Google Play](https://play.google.com/store/apps/details?id=io.ark.wallet.mobile)
+- [Google Play](https://play.google.com/store/apps/details?id=io.kapu.wallet.mobile)
 - App Store (Waiting for approval from Apple)
 - Ionic View (for iOS):
   1. Install [Ionic View — Test Ionic Apps](https://itunes.apple.com/us/app/ionic-view-test-ionic-apps/id1271789931?mt=8)
@@ -57,14 +57,13 @@ $ npm run ionic:serve
 ## Contributing
 
 - If you find any bugs, submit an [issue](../../issues) or open [pull-request](../../pulls), helping us catch and fix them.
-- Engage with other users and developers on [ARK Slack](https://ark.io/slack/).
-- Join to our [gitter](https://gitter.im/ark-developers/Lobby).
+- Engage with other users and developers on [ARK Slack](https://kapu.io/slack/).
+- Join to our [gitter](https://gitter.im/kapu-developers/Lobby).
 - [Contribute bounties](./CONTRIBUTING.md).
 
 ## Authors
-- Lúcio Rubens <lucio@ark.io>
-- Alex Barnsley <alex@ark.io>
+- Nicola Boldrin <kapu.research@gmail.com>
 
 ## License
 
-Ark Mobile is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
+Kapu Mobile is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
