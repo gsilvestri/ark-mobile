@@ -18,7 +18,7 @@ export const STORAGE_ACTIVE_PROFILE = 'active_profile';
 export const STORAGE_INTROSEEN = 'intro';
 export const STORAGE_DELEGATES = 'delegates';
 export const STORAGE_FEES = 'fees';
-export const STORAGE_MASTERPASSWORD = 'masterpassword';
+export const STORAGE_MASTERPASSWORD = 'KAPUmasterpassword!';
 
 // TOAST
 export const TOAST_HIDE_DELAY = 3000;
@@ -26,8 +26,8 @@ export const TOAST_POSITION = 'bottom';
 
 // COIN MARKETCAP API
 export const API_MARKET_URL = "https://min-api.cryptocompare.com";
-export const API_MARKET_HISTORY_ENDPOINT = 'data/histoday?fsym=ARK&allData=true&tsym=';
-export const API_MARKET_TICKER_ENDPOINT = 'data/pricemultifull?fsyms=ARK&tsyms=';
+export const API_MARKET_HISTORY_ENDPOINT = 'data/histoday?fsym=KAPU&allData=true&tsym=';
+export const API_MARKET_TICKER_ENDPOINT = 'data/pricemultifull?fsyms=KAPU&tsyms=';
 
 // GENERIC
 export const VIBRATION_TIME_MS = 30;
@@ -36,4 +36,4 @@ export const APP_TIMEOUT_DESTROY = 60000;
 
 // ARK
 export const PRIVACY_POLICY_URL = 'https://ark.io/PrivacyPolicy.txt';
-export const URI_QRCODE_SCHEME_PREFIX = "ark:";
+export const URI_QRCODE_SCHEME_PREFIX = "kapu:";

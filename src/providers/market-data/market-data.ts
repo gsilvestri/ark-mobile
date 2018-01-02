@@ -12,6 +12,7 @@ import { SettingsDataProvider } from '@providers/settings-data/settings-data';
 import * as model from '@models/market';
 import { UserSettings } from '@models/settings';
 import * as constants from '@app/app.constants';
+import * as market_constants from '@app/app.market.constants';
 
 @Injectable()
 export class MarketDataProvider {
@@ -41,12 +42,15 @@ export class MarketDataProvider {
   get history(): Observable<model.MarketHistory> {
     if (this.marketHistory) return Observable.of(this.marketHistory);
 
+    if(market_constants.API_MARKET_HARDCODED_DATAS===true){
+      let history = Observable.of(new model.MarketHistory().deserialize( market_constants.API_MARKET_HARDCODED_HISTORY ));
+      return history;
+    }
     return this.fetchHistory();
   }
 
   get ticker(): Observable<model.MarketTicker> {
     if (this.marketTicker) return Observable.of(this.marketTicker);
-
     return this.fetchTicker();
   }
 
@@ -57,6 +61,12 @@ export class MarketDataProvider {
   }
 
   private fetchTicker(): Observable<model.MarketTicker> {
+
+    if(market_constants.API_MARKET_HARDCODED_DATAS===true){
+      let ticker = Observable.of(new model.MarketTicker().deserialize( market_constants.API_MARKET_HARDCODED_TICKER ));
+      return ticker;
+    }
+
     const url = `${constants.API_MARKET_URL}/${constants.API_MARKET_TICKER_ENDPOINT}`;
 
     let currenciesList = model.CURRENCIES_LIST.map((currency) => {
@@ -64,7 +74,7 @@ export class MarketDataProvider {
     }).join(',');
 
     return this.http.get(url + currenciesList).map((response) => {
-      let json = response['RAW']['ARK'];
+      let json = response['RAW']['KAPU'];
       let tickerObject = {
         symbol: json['BTC']['FROMSYMBOL'],
         currencies: json,
