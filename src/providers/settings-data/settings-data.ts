@@ -20,6 +20,7 @@ export class SettingsDataProvider {
     languages: {
       "en": "English",
       "it": "Italiano",
+      "sv": "Svenska"
     },
     currencies: {
       "btc": "Bitcoin",
