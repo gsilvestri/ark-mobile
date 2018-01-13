@@ -40,12 +40,14 @@ export class MarketDataProvider {
   }
 
   get history(): Observable<model.MarketHistory> {
-    if (this.marketHistory) return Observable.of(this.marketHistory);
 
     if(market_constants.API_MARKET_HARDCODED_DATAS===true){
       let history = Observable.of(new model.MarketHistory().deserialize( market_constants.API_MARKET_HARDCODED_HISTORY ));
       return history;
     }
+
+    if (this.marketHistory) return Observable.of(this.marketHistory);
+
     return this.fetchHistory();
   }
 
@@ -88,6 +90,12 @@ export class MarketDataProvider {
   }
 
   fetchHistory(): Observable<model.MarketHistory> {
+
+    if(market_constants.API_MARKET_HARDCODED_DATAS===true){
+      let history = Observable.of(new model.MarketHistory().deserialize( market_constants.API_MARKET_HARDCODED_HISTORY ));
+      return history;
+    }
+
     const url = `${constants.API_MARKET_URL}/${constants.API_MARKET_HISTORY_ENDPOINT}`;
     const myCurrencyCode = (this.settings.currency == 'btc' ? this.settingsDataProvider.getDefaults().currency : this.settings.currency).toUpperCase();
 
