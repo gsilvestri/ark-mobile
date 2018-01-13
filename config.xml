@@ -2,7 +2,7 @@
 <widget id="io.kapu.wallet.mobile" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Kapu Mobile</name>
     <description>KAPU</description>
-    <author email="kapu.research@gmail.com" href=https://github.com/gsilvestri/kapu-mobile>Kapu Mobile</author>
+    <author email="kapu.research@gmail.com" href="https://github.com/gsilvestri/kapu-mobile">Kapu Mobile</author>
     <content src="index.html" />
     <access origin="*" />
     <allow-navigation href="http://ionic.local/*" />
