@@ -1,4 +1,4 @@
-![KAPU Mobile](https://i.imgur.com/0BjkC9C.png)
+![KAPU Mobile](https://i.imgur.com/CplRVkE.jpg)
 
 # Kapu Mobile
 > A Wallet for Everyone
