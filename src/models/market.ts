@@ -1,4 +1,5 @@
 import lodash from 'lodash';
+import * as market_constants from '@app/app.market.constants';
 
 export interface Currency {
   code?: string;
@@ -202,6 +203,19 @@ export class MarketHistory {
   }
 
   getPriceByDate(currencyCode: string, date: Date): number {
+
+    if(market_constants.API_MARKET_HARDCODED_DATAS===true){
+
+      if(currencyCode==='EUR'){
+        return 0.26;
+      }else if(currencyCode==='USD'){
+        return 0.3124575325;
+      } else {
+        return 0.00002500;
+      }
+
+    }
+
     let timestampDate = date.setHours(0, 0, 0, 0);
 
     return this.history[currencyCode.toUpperCase()][timestampDate];

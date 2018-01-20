@@ -53,6 +53,7 @@ export class MarketDataProvider {
 
   get ticker(): Observable<model.MarketTicker> {
     if (this.marketTicker) return Observable.of(this.marketTicker);
+
     return this.fetchTicker();
   }
 

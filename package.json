@@ -27,7 +27,7 @@
     "build": "ionic-app-scripts build",
     "lint": "ionic-app-scripts lint",
     "ionic:build": "ionic-app-scripts build",
-    "ionic:serve": "customize_ark_ts && ionic-app-scripts serve",
+    "ionic:serve": "ionic-app-scripts serve",
     "ionic:lab": "ionic-app-scripts serve --lab"
   },
   "dependencies": {
@@ -62,10 +62,11 @@
     "ark-ts": "^0.3.3",
     "arkjs": "github:arkecosystem/ark-js#master",
     "bcryptjs": "^2.4.3",
+    "bignumber.js": "^5.0.0",
     "bip38": "^2.0.2",
     "bip39": "^2.4.0",
     "chart.js": "^2.7.1",
-    "cordova-android": "^6.4.0",
+    "cordova-android": "^6.3.0",
     "cordova-browser": "^5.0.1",
     "cordova-clipboard": "^1.1.1",
     "cordova-custom-config": "^5.0.1",
