@@ -1,7 +1,21 @@
 // COIN MARKETCAP API
 export const API_MARKET_HARDCODED_DATAS = true;
 
-export const API_MARKET_HARDCODED_HISTORY={ "Response":"Success", "Type":100, "Aggregated":false, "Data":[{ "time":1490140800, "high":0.00002500, "low":0.00002500, "open":0.00002500, "volumefrom":0, "volumeto":0, "close":0.00002500},{ "time":1514851200, "high":0.00002500, "low":0.00002500, "open":0.00002500, "volumefrom":0, "volumeto":0, "close":0.00002500} ], "TimeTo":1514851200, "TimeFrom":1490140800000, "FirstValueInArray":true, "ConversionType":{"type":"multiply","conversionSymbol":"BTC" }};
+export const API_MARKET_HARDCODED_HISTORY_BTC={"Response":"Success", "Type":100, "Aggregated":false, "Data":[
+{"time":1490140800,"close":0.00002500,"high":0.00002500,"low":0.00002500,"open":0.00002500,"volumefrom":0,"volumeto":0},
+{"time":1490227200,"close":0.00002500,"high":0.00002500,"low":0.00002500,"open":0.00002500,"volumefrom":0,"volumeto":0}
+],"TimeTo":1514851200, "TimeFrom":1490140800000, "FirstValueInArray":true, "ConversionType":{"type":"multiply","conversionSymbol":"BTC" }};
+
+export const API_MARKET_HARDCODED_HISTORY_EUR={"Response":"Success", "Type":100, "Aggregated":false, "Data":[
+{"time":1490140800,"high":0.26,"low":0.26,"open":0.26,"volumefrom":0,"volumeto":0,"close":0.26},
+{"time":1490227200,"high":0.26,"low":0.26,"open":0.26,"volumefrom":0,"volumeto":0,"close":0.26}
+],"TimeTo":1514851200, "TimeFrom":1490140800000, "FirstValueInArray":true, "ConversionType":{"type":"multiply","conversionSymbol":"BTC" }};
+
+export const API_MARKET_HARDCODED_HISTORY_USD={"Response":"Success", "Type":100, "Aggregated":false, "Data":[
+{"time":1490140800,"high":0.3124575325,"low":0.3124575325,"open":0.3124575325,"volumefrom":0,"volumeto":0,"close":0.3124575325},
+{"time":1490227200,"high":0.3124575325,"low":0.3124575325,"open":0.3124575325,"volumefrom":0,"volumeto":0,"close":0.3124575325}
+],"TimeTo":1514851200, "TimeFrom":1490140800000, "FirstValueInArray":true, "ConversionType":{"type":"multiply","conversionSymbol":"BTC" }};
+
 export const API_MARKET_HARDCODED_TICKER={
    "RAW":{
       "KAPU":{

@@ -40,11 +40,11 @@ export class MarketDataProvider {
   }
 
   get history(): Observable<model.MarketHistory> {
-
+/*
     if(market_constants.API_MARKET_HARDCODED_DATAS===true){
       let history = Observable.of(new model.MarketHistory().deserialize( market_constants.API_MARKET_HARDCODED_HISTORY ));
       return history;
-    }
+    }*/
 
     if (this.marketHistory) return Observable.of(this.marketHistory);
 
@@ -66,8 +66,18 @@ export class MarketDataProvider {
   private fetchTicker(): Observable<model.MarketTicker> {
 
     if(market_constants.API_MARKET_HARDCODED_DATAS===true){
-      let ticker = Observable.of(new model.MarketTicker().deserialize( market_constants.API_MARKET_HARDCODED_TICKER ));
-      return ticker;
+      //let ticker = Observable.of(new model.MarketTicker().deserialize( market_constants.API_MARKET_HARDCODED_TICKER ));
+      //return ticker;
+      let json = market_constants.API_MARKET_HARDCODED_TICKER['RAW']['KAPU'];
+      let tickerObject = {
+        symbol: json['BTC']['FROMSYMBOL'],
+        currencies: json,
+      };
+
+      this.marketTicker = new model.MarketTicker().deserialize(tickerObject);
+      this.storageProvider.set(constants.STORAGE_MARKET_TICKER, tickerObject);
+
+      return  Observable.of(this.marketTicker);
     }
 
     const url = `${constants.API_MARKET_URL}/${constants.API_MARKET_TICKER_ENDPOINT}`;
@@ -92,13 +102,29 @@ export class MarketDataProvider {
 
   fetchHistory(): Observable<model.MarketHistory> {
 
-    if(market_constants.API_MARKET_HARDCODED_DATAS===true){
-      let history = Observable.of(new model.MarketHistory().deserialize( market_constants.API_MARKET_HARDCODED_HISTORY ));
-      return history;
-    }
-
     const url = `${constants.API_MARKET_URL}/${constants.API_MARKET_HISTORY_ENDPOINT}`;
     const myCurrencyCode = (this.settings.currency == 'btc' ? this.settingsDataProvider.getDefaults().currency : this.settings.currency).toUpperCase();
+
+
+    if(market_constants.API_MARKET_HARDCODED_DATAS===true){
+      let historyData = {
+        BTC: market_constants.API_MARKET_HARDCODED_HISTORY_BTC['Data'],
+      };
+      if(myCurrencyCode==='EUR'){
+          historyData['EUR'] = market_constants.API_MARKET_HARDCODED_HISTORY_EUR['Data'];
+      } else if(myCurrencyCode==='USD'){
+          historyData['USD'] = market_constants.API_MARKET_HARDCODED_HISTORY_USD['Data'];
+      } else {
+          historyData[myCurrencyCode] = market_constants.API_MARKET_HARDCODED_HISTORY_BTC['Data'];
+      }
+
+      let history = new model.MarketHistory().deserialize(historyData);
+      this.marketHistory = history;
+      this.storageProvider.set(constants.STORAGE_MARKET_HISTORY, historyData);
+
+      return Observable.of(history);
+    }
+
 
     return this.http.get(url + 'BTC')
       .map((btcResponse) => btcResponse)
