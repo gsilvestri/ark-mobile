@@ -1,6 +1,9 @@
 // COIN MARKETCAP API
 export const API_MARKET_HARDCODED_DATAS = true;
 
+export const BTC_API_MARKET_HISTORY_ENDPOINT = 'data/histoday?fsym=BTC&allData=true&tsym=';
+export const BTC_API_MARKET_TICKER_ENDPOINT = 'data/pricemultifull?fsyms=BTC&tsyms=';
+
 export const API_MARKET_HARDCODED_HISTORY_BTC={"Response":"Success", "Type":100, "Aggregated":false, "Data":[
 {"time":1490140800,"close":0.00002500,"high":0.00002500,"low":0.00002500,"open":0.00002500,"volumefrom":0,"volumeto":0},
 {"time":1490227200,"close":0.00002500,"high":0.00002500,"low":0.00002500,"open":0.00002500,"volumefrom":0,"volumeto":0}

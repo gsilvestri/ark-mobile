@@ -8,11 +8,6 @@ KAPU’s mobile wallet is a hybrid application (using the same codebase for Andr
 ## Download
 
 - [Google Play](https://play.google.com/store/apps/details?id=io.kapu.wallet.mobile)
-- App Store (Waiting for approval from Apple)
-- Ionic View (for iOS):
-  1. Install [Ionic View — Test Ionic Apps](https://itunes.apple.com/us/app/ionic-view-test-ionic-apps/id1271789931?mt=8)
-  1. Open and click the eye at the bottom
-  1. Enter the ID **0894ffa2** and “View App”
 
 ## Features
 
@@ -21,9 +16,9 @@ KAPU’s mobile wallet is a hybrid application (using the same codebase for Andr
 - Encrypt access to your profile with a custom 6 digit PIN (AES256+PBKDF2).
 - Most transaction types are available: send, receive, vote, unvote, register a delegate.
 - Connects to both mainnet and devnet.
-- Option for additional profiles (separate profiles for different ARK addresses or networks).
+- Option for additional profiles (separate profiles for different KAPU addresses or networks).
 - Option to add contacts and easily transact with them.
-- Total balance of your combined ARK addresses.
+- Total balance of your combined KAPU addresses.
 - Wallet backup - input your selected PIN to decrypt your wallet and gain view of your private data.
 - Change PIN - if you want to change your encryption/decryption PIN you can easily do so..
 - Clear Data — you can clear all your data from the phone.
@@ -57,7 +52,7 @@ $ npm run ionic:serve
 ## Contributing
 
 - If you find any bugs, submit an [issue](../../issues) or open [pull-request](../../pulls), helping us catch and fix them.
-- Engage with other users and developers on [ARK Slack](https://kapu.io/slack/).
+- Engage with other users and developers on [KAPU Slack](https://slack.kapu.one/).
 - Join to our [gitter](https://gitter.im/kapu-developers/Lobby).
 - [Contribute bounties](./CONTRIBUTING.md).
 

@@ -1,5 +1,5 @@
 {
-  "name": "ark-mobile",
+  "name": "kapu-mobile",
   "version": "1.0.0",
   "author": {
     "name": "Lucio Rubens",
@@ -11,11 +11,16 @@
       "name": "Alex Barnsley",
       "email": "alex@ark.io",
       "url": "https://github.com/alexbarnsley"
+    },
+    {
+      "name": "Nicola Boldrin",
+      "email": "kapu.research@gmail.com",
+      "url": "https://github.com/nboldrin"
     }
   ],
-  "homepage": "https://github.com/ArkEcosystem/ark-mobile#readme",
+  "homepage": "https://github.com/gsilvestri/kapu-mobile#readme",
   "bugs": {
-    "url": "https://github.com/ArkEcosystem/ark-mobile/issues"
+    "url": "https://github.com/gsilvestri/kapu-mobile/issues"
   },
   "license": "MIT",
   "private": true,
