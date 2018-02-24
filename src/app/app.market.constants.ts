@@ -1,5 +1,5 @@
 // COIN MARKETCAP API
-export const API_MARKET_HARDCODED_DATAS = true;
+export const API_MARKET_HARDCODED_DATAS = false;
 
 export const BTC_API_MARKET_HISTORY_ENDPOINT = 'data/histoday?fsym=BTC&allData=true&tsym=';
 export const BTC_API_MARKET_TICKER_ENDPOINT = 'data/pricemultifull?fsyms=BTC&tsyms=';
