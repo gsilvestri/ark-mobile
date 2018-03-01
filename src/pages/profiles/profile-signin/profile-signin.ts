@@ -1,5 +1,5 @@
-import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, ModalController, ActionSheetController } from 'ionic-angular';
+import {Component, OnDestroy, ViewChild} from '@angular/core';
+import { IonicPage, NavController, NavParams, AlertController, ActionSheetController } from 'ionic-angular';
 
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/takeUntil';
@@ -22,7 +22,7 @@ import { PinCodeComponent } from '@components/pin-code/pin-code';
   selector: 'page-profile-signin',
   templateUrl: 'profile-signin.html',
 })
-export class ProfileSigninPage {
+export class ProfileSigninPage implements OnDestroy {
   @ViewChild('pinCode') pinCode: PinCodeComponent;
 
   public profiles;
@@ -41,13 +41,12 @@ export class ProfileSigninPage {
     private authProvider: AuthProvider,
     private toastProvider: ToastProvider,
     private alertCtrl: AlertController,
-    private modalCtrl: ModalController,
     private actionSheetCtrl: ActionSheetController,
   ) { }
 
   presentProfileActionSheet(profileId: string) {
     this.translateService.get(['EDIT', 'DELETE']).takeUntil(this.unsubscriber$).subscribe((translation) => {
-      let buttons = [{
+      const buttons = [{
         text: translation.DELETE,
         role: 'delete',
         icon: !this.platform.is('ios') ? 'ios-trash-outline' : '',
@@ -60,7 +59,7 @@ export class ProfileSigninPage {
         },
       }];
 
-      let action = this.actionSheetCtrl.create({buttons});
+      const action = this.actionSheetCtrl.create({buttons});
       action.present();
     });
   }
@@ -71,7 +70,7 @@ export class ProfileSigninPage {
 
   showDeleteConfirm(profileId: string) {
     this.translateService.get(['ARE_YOU_SURE', 'CONFIRM', 'CANCEL']).takeUntil(this.unsubscriber$).subscribe((translation) => {
-      let confirm = this.alertCtrl.create({
+      const confirm = this.alertCtrl.create({
         title: translation.ARE_YOU_SURE,
         buttons: [
           {
@@ -90,7 +89,7 @@ export class ProfileSigninPage {
   }
 
   delete(profileId: string) {
-    return this.userDataProvider.removeProfileById(profileId).takeUntil(this.unsubscriber$).subscribe((result) => {
+    return this.userDataProvider.removeProfileById(profileId).takeUntil(this.unsubscriber$).subscribe(() => {
       this.load();
     });
   }
@@ -101,7 +100,7 @@ export class ProfileSigninPage {
   }
 
   signin() {
-    if (!this.profileIdSelected) return;
+    if (!this.profileIdSelected) { return; }
 
     this.authProvider.login(this.profileIdSelected).takeUntil(this.unsubscriber$).subscribe((status) => {
       if (status) {
@@ -121,9 +120,9 @@ export class ProfileSigninPage {
     this.networks = this.userDataProvider.networks;
 
     this.addresses = lodash(this.profiles).mapValues((o) => [o.name, o.networkId]).transform((result, data, id) => {
-      let network = this.networks[data[1]];
-      let networkName = lodash.capitalize(network.name);
-      let isMainnet = network.type === NetworkType.Mainnet;
+      const network = this.networks[data[1]];
+      const networkName = lodash.capitalize(network.name);
+      const isMainnet = network.type === NetworkType.Mainnet;
 
       result.push({ index: id, key: data[0], value: networkName, highlight: isMainnet });
     }, []).value();
@@ -144,9 +143,9 @@ export class ProfileSigninPage {
   }
 
   private profileHasWallets(profileId: string): boolean {
-    let profile = this.profiles[profileId];
-    let network = this.networks[profile.networkId];
-    for (let wallet of lodash.values(profile.wallets)) {
+    const profile = this.profiles[profileId];
+    const network = this.networks[profile.networkId];
+    for (const wallet of lodash.values(profile.wallets)) {
       if (PublicKey.validateAddress(wallet.address, network)) {
         return true;
       }

@@ -4,3 +4,5 @@ export * from './transaction';
 export * from './profile';
 export * from './settings';
 export * from './wallet';
+export * from './translate';
+export * from './passphrase-word';

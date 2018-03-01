@@ -1,6 +1,8 @@
 {
   "API": {
     "BALANCE_TOO_LOW": "Balance too low for transaction",
+    "BALANCE_TOO_LOW_DETAIL": "Not enough {{ token }} on your account! The transaction costs are: {{ totalAmount }} ({{ amount }} + {{ fee }} fee). However your account balance is only {{ balance }}!",
+    "DESTINATION_ADDRESS_ERROR": "The destination address '{{ address }}' is erroneous",
     "PEER_LIST_ERROR": "Could not get list of peers",
     "TRANSACTION_FAILED": "Transaction failed",
     "TRANSACTION_SENT": "Transaction was sent"
@@ -56,7 +58,7 @@
     "FAST_EASY": "Fast and Easy",
     "GET_STARTED": "Get Started",
     "SECURITY": "Security",
-    "TEXT_1": "We provide all the tools you need to manage your KAPU tokens, anytime, anywhere, worldwide!",
+    "TEXT_1": "We provide all the tools you need to manage your ARK tokens, anytime, anywhere, worldwide!",
     "TEXT_2": "All your sensitive data is securely stored using PBKDF2 algorithm and AES-256 encryption protected by your PIN Code",
     "TEXT_3": "Swipe between profiles and wallets, check your balances, send and receive funds and much more",
     "WELCOME": "Welcome Aboard"
@@ -89,10 +91,16 @@
   },
   "NEXT": "Next",
   "NO": "No",
+  "PASSPHRASE_TEST": {
+    "INFO": "Please type the required words from your passphrase to validate the wallet creation.",
+    "WRONG_WORD": "The typed word is not correct"
+  },
   "PIN_CODE": {
     "CONFIRM": "Confirm your PIN",
     "CREATE": "Create your PIN",
     "DEFAULT_MESSAGE": "Type your PIN",
+    "WRONG_PIN_MANY_TIMES": "You entered a wrong PIN too many times!",
+    "WAIT_TO_TRY": "Please wait {{ time }} and try again",
     "LOGIN_ERROR": "There was a problem signing in with your PIN",
     "PIN_CREATED_ERROR_TEXT": "There was a problem creating your PIN",
     "PIN_CREATED_TEXT": "Your PIN has been created",
@@ -162,6 +170,7 @@
     "OPEN_EXPLORER": "Open in Explorer",
     "QRCODE_COPY": "Tap on address to copy it to clipboard or click on icon to share QR code.",
     "RECEIVE": "Receive",
+    "RECEIVE_TOKEN": "Receive {{ Token }}",
     "RECEIVED": "Received",
     "RECEIVED_FROM": "Received from",
     "RECIPIENT": "Recipient",
@@ -233,5 +242,6 @@
     "TUESDAY": "Tue",
     "WEDNESDAY": "Wed"
   },
+  "WORD": "Word",
   "YES": "Yes"
 }

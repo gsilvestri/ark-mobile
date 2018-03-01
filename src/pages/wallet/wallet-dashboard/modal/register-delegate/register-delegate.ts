@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 
 import { Subject } from 'rxjs/Subject';
@@ -10,14 +10,14 @@ import lodash from 'lodash';
   selector: 'page-register-delegate',
   templateUrl: 'register-delegate.html',
 })
-export class RegisterDelegatePage {
+export class RegisterDelegatePage implements OnDestroy {
 
   public fee: number;
   public symbol: string;
   public name: string;
 
   public allowedDelegateNameChars = '[a-z0-9!@$&_.]+';
-  public isExists: boolean = false;
+  public isExists = false;
 
   private delegates;
   private unsubscriber$: Subject<void> = new Subject<void>();
@@ -36,7 +36,7 @@ export class RegisterDelegatePage {
 
   validateName() {
     this.name = this.name.toLowerCase();
-    let find = lodash.find(this.delegates, { username: this.name.trim() });
+    const find = lodash.find(this.delegates, { username: this.name.trim() });
 
     this.isExists = !lodash.isNil(find);
   }

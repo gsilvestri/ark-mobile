@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 import { Subject } from 'rxjs/Subject';
@@ -15,13 +15,13 @@ import lodash from 'lodash';
   selector: 'page-profile-create',
   templateUrl: 'profile-create.html',
 })
-export class ProfileCreatePage {
+export class ProfileCreatePage implements OnDestroy {
 
   public networks;
   public networksIds;
 
   public newProfile = { name: '', networkId: '' };
-  public showAdvancedOptions: boolean = false;
+  public showAdvancedOptions = false;
 
   private unsubscriber$: Subject<void> = new Subject<void>();
 
@@ -37,11 +37,11 @@ export class ProfileCreatePage {
   }
 
   submitForm() {
-    let profile = new Profile();
+    const profile = new Profile();
     profile.name = this.newProfile.name;
     profile.networkId = this.newProfile.networkId;
 
-    this.userDataProvider.addProfile(profile).takeUntil(this.unsubscriber$).subscribe((result) => {
+    this.userDataProvider.addProfile(profile).takeUntil(this.unsubscriber$).subscribe(() => {
       this.navCtrl.setRoot('ProfileSigninPage');
     }, () => {
       this.toastProvider.error('PROFILES_PAGE.ADD_PROFILE_ERROR');

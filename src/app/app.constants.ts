@@ -2,6 +2,7 @@
 export const BLOCKCHAIN_PREMINNED = 125000000;
 
 // WALLET
+export const ARKTOSHI_DP = 8;
 export const WALLET_UNIT_TO_SATOSHI = 100000000;
 export const WALLET_REFRESH_PRICE_MILLISECONDS = 500 * 1000;
 export const WALLET_REFRESH_TRANSACTIONS_MILLISECONDS = 10 * 1000;
@@ -19,6 +20,8 @@ export const STORAGE_INTROSEEN = 'intro';
 export const STORAGE_DELEGATES = 'delegates';
 export const STORAGE_FEES = 'fees';
 export const STORAGE_MASTERPASSWORD = 'KAPUmasterpassword!';
+export const STORAGE_AUTH_UNLOCK_TIMESTAMP = 'auth_timestamp';
+export const STORAGE_AUTH_ATTEMPTS = 'auth_attempts';
 
 // TOAST
 export const TOAST_HIDE_DELAY = 3000;
@@ -34,6 +37,10 @@ export const API_MARKET_TICKER_ENDPOINT = 'data/pricemultifull?fsyms=KAPU&tsyms=
 export const VIBRATION_TIME_MS = 30;
 export const VIBRATION_TIME_LONG_MS = 200;
 export const APP_TIMEOUT_DESTROY = 60000;
+
+// PIN
+export const PIN_ATTEMPTS_LIMIT = 3;
+export const PIN_ATTEMPTS_TIMEOUT_MILLISECONDS = 30 * 1000;
 
 // ARK
 export const PRIVACY_POLICY_URL = 'https://ark.io/PrivacyPolicy.txt';

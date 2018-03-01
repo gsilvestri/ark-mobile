@@ -3,6 +3,8 @@ import arkConfig from 'ark-ts/config';
 
 import { MarketCurrency, MarketHistory, MarketTicker } from '@models/market';
 
+import { UnitsSatoshiPipe } from '@pipes/units-satoshi/units-satoshi';
+
 const TX_TYPES = {
   0: 'TRANSACTIONS_PAGE.SENT',
   1: 'TRANSACTIONS_PAGE.SECOND_SIGNATURE_CREATION',
@@ -30,16 +32,15 @@ export interface SendTransactionForm {
 export class Transaction extends TransactionModel {
 
   public date: Date;
-  public totalAmount: number;
 
   constructor(public address: string) {
     super();
   }
 
   deserialize(input: any): Transaction {
-    let self: any = this;
+    const self: any = this;
 
-    for (let prop in input) {
+    for (const prop in input) {
       self[prop] = input[prop];
     }
 
@@ -51,39 +52,40 @@ export class Transaction extends TransactionModel {
   getAmount() {
     let amount = this.amount;
 
-    if (this.isSender()) amount = this.amount + this.fee;
+    if (this.isSender()) { amount = this.amount + this.fee; }
 
     return amount;
   }
 
   getAmountEquivalent(marketCurrency: MarketCurrency, market: MarketTicker | MarketHistory): number {
-    if (!market || !marketCurrency) return 0;
+    if (!market || !marketCurrency) { return 0; }
 
     let price = 0;
     if (market instanceof MarketTicker) {
-      let currency = market ? market.getCurrency({ code: marketCurrency.code }) : null;
+      const currency = market ? market.getCurrency({ code: marketCurrency.code }) : null;
       price = currency ? currency.price : 0;
     } else {
       price = market.getPriceByDate(marketCurrency.code, this.date);
     }
 
-    return this.getAmount() * price;
+    const unitsSatoshiPipe = new UnitsSatoshiPipe();
+    const amount = unitsSatoshiPipe.transform(this.getAmount(), true);
+
+    return amount * price;
   }
 
   getTimestamp() {
-    var blockchainDate = arkConfig.blockchain.date;
-    var blockchainTime = blockchainDate.getTime() / 1000;
+    const blockchainDate = arkConfig.blockchain.date;
+    const blockchainTime = blockchainDate.getTime() / 1000;
 
-    let currentTimestamp = this.timestamp + blockchainTime;
-
-    return currentTimestamp;
+    return this.timestamp + blockchainTime;
   }
 
   getAppropriateAddress() {
     if (this.isTransfer()) {
       if (this.isSender()) {
         return this.recipientId;
-      } else if (this.isReceiver(this.address)) {
+      } else if (this.isReceiver()) {
         return this.senderId;
       }
     }
@@ -92,7 +94,7 @@ export class Transaction extends TransactionModel {
   getTypeLabel(): string {
     let type = TX_TYPES[this.type];
 
-    if (this.isTransfer() && !this.isSender()) type = 'TRANSACTIONS_PAGE.RECEIVED';
+    if (this.isTransfer() && !this.isSender()) { type = 'TRANSACTIONS_PAGE.RECEIVED'; }
 
     return type;
   }
@@ -100,25 +102,21 @@ export class Transaction extends TransactionModel {
   getActivityLabel() {
     let type = TX_TYPES_ACTIVITY[this.type];
 
-    if (this.isTransfer() && !this.isSender()) type = 'TRANSACTIONS_PAGE.RECEIVED_FROM';
+    if (this.isTransfer() && !this.isSender()) { type = 'TRANSACTIONS_PAGE.RECEIVED_FROM'; }
 
     return type;
   }
 
   isTransfer(): boolean {
-    return this.type == TransactionType.SendArk;
-  }
-
-  isSameAddress(): boolean {
-    return this.senderId == this.recipientId;
+    return this.type === TransactionType.SendArk;
   }
 
   isSender(): boolean {
-    return this.senderId == this.address;
+    return this.senderId === this.address;
   }
 
-  isReceiver(address: string): boolean {
-    return this.recipientId == this.address;
+  isReceiver(): boolean {
+    return this.recipientId === this.address;
   }
 
 }

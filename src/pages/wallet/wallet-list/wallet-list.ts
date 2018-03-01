@@ -1,7 +1,6 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import {Component, OnDestroy, ViewChild} from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController, ActionSheetController, Platform, Content, Slides } from 'ionic-angular';
 
-import { Chart } from 'chart.js';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/takeUntil';
 
@@ -24,10 +23,10 @@ import { BaseChartDirective } from 'ng2-charts';
   selector: 'page-wallet-list',
   templateUrl: 'wallet-list.html',
 })
-export class WalletListPage {
+export class WalletListPage implements OnDestroy {
   @ViewChild('walletSlider') slider: Slides;
   @ViewChild(Content) content: Content;
-  @ViewChild(BaseChartDirective) chart: any;
+  @ViewChild('chart') chart: BaseChartDirective;
 
   public currentProfile: Profile;
   public currentNetwork: Network;
@@ -41,15 +40,14 @@ export class WalletListPage {
   public marketHistory: MarketHistory;
   public marketTicker: MarketTicker;
 
-  private forceChartRefreshListener;
-  private chartOptions: any;
-  private chartLabels: any;
-  private chartData: any;
-  private chartColors: any = [{
+  public chartOptions: any;
+  public chartLabels: any;
+  public chartData: any;
+  public chartColors: any = [{
     borderColor: '#394cf8'
   }, {
     borderColor: '#f3a447'
-  }]
+  }];
 
   private unsubscriber$: Subject<void> = new Subject<void>();
 
@@ -69,7 +67,7 @@ export class WalletListPage {
     this.userDataProvider.clearCurrentWallet();
   }
 
-  onSlideChanged(event) {
+  onSlideChanged() {
     this.selectedWallet = this.userDataProvider.getWalletByAddress(this.wallets[this.slider.realIndex].address);
   }
 
@@ -89,7 +87,7 @@ export class WalletListPage {
       'GENERATE',
       'IMPORT',
     ]).takeUntil(this.unsubscriber$).subscribe((translation) => {
-      let actionSheet = this.actionSheetCtrl.create({
+      const actionSheet = this.actionSheetCtrl.create({
         buttons: [
           {
             text: translation.GENERATE,
@@ -114,25 +112,25 @@ export class WalletListPage {
   }
 
   private presentWalletGenerate() {
-    let modal = this.modalCtrl.create('GenerateEntropyModal');
+    const modal = this.modalCtrl.create('GenerateEntropyModal');
 
     modal.onDidDismiss((entropy) => {
-      if (!entropy) return;
+      if (!entropy) { return; }
 
-      let showModal = this.modalCtrl.create('WalletBackupModal', {
+      const showModal = this.modalCtrl.create('WalletBackupModal', {
         title: 'WALLETS_PAGE.CREATE_WALLET',
         entropy,
       });
 
       showModal.onDidDismiss((account) => {
-        if (!account) return;
+        if (!account) { return; }
 
         this.storeWallet(account);
       });
 
 
       showModal.present();
-    })
+    });
 
     modal.present();
   }
@@ -142,41 +140,41 @@ export class WalletListPage {
   }
 
   private storeWallet(account) {
-    let wallet = new Wallet();
+    const wallet = new Wallet();
     wallet.address = account.address;
     wallet.publicKey = account.publicKey;
 
-    let modal = this.modalCtrl.create('PinCodeModal', {
+    const modal = this.modalCtrl.create('PinCodeModal', {
       message: 'PIN_CODE.TYPE_PIN_ENCRYPT_PASSPHRASE',
       outputPassword: true,
       validatePassword: true
     });
 
     modal.onDidDismiss((password) => {
-      if (!password) return;
+      if (!password) { return; }
 
-      this.userDataProvider.addWallet(wallet, account.mnemonic, password).takeUntil(this.unsubscriber$).subscribe((response) => {
+      this.userDataProvider.addWallet(wallet, account.mnemonic, password).takeUntil(this.unsubscriber$).subscribe(() => {
         this.loadWallets();
       });
-    })
+    });
 
     modal.present();
   }
 
   private loadWallets() {
     this.loadUserData();
-    if (lodash.isEmpty(this.currentProfile.wallets)) return;
+    if (!this.currentProfile || lodash.isEmpty(this.currentProfile.wallets)) { return; }
 
-    let list = [];
-    for (let w of lodash.values(this.currentProfile.wallets)) {
-      let wallet = new Wallet().deserialize(w);
+    const list = [];
+    for (const w of lodash.values(this.currentProfile.wallets)) {
+      const wallet = new Wallet().deserialize(w);
       if (PublicKey.validateAddress(wallet.address, this.currentNetwork)) {
         list.push(wallet);
       }
     }
 
     this.totalBalance = lodash(list).values().sumBy((w) => parseInt(w.balance));
-    let wholeArk = (this.totalBalance / constants.WALLET_UNIT_TO_SATOSHI);
+    const wholeArk = (this.totalBalance / constants.WALLET_UNIT_TO_SATOSHI);
     this.fiatBalance = wholeArk * (this.fiatCurrency ? this.fiatCurrency.price : 0);
 
     this.wallets = lodash.orderBy(list, ['lastUpdate'], ['desc']);
@@ -209,27 +207,28 @@ export class WalletListPage {
       'WEEK_DAY.FRIDAY',
       'WEEK_DAY.SATURDAY',
     ]).subscribe((translation) => {
-      if (lodash.isEmpty(this.wallets)) return;
+      if (lodash.isEmpty(this.wallets)) { return; }
 
-      let days = lodash.values(translation);
+      const days = lodash.values(translation);
 
       this.settingsDataProvider.settings.subscribe((settings) => {
-        this.marketDataProvider.history.takeUntil(this.unsubscriber$).subscribe((history) => {
-          if (!history) return;
+        this.marketDataProvider.history.subscribe();
+        this.marketDataProvider.onUpdateHistory$.takeUntil(this.unsubscriber$).subscribe((history) => {
+          if (!history) { return; }
 
-          let currency = settings.currency == 'btc' ? this.settingsDataProvider.getDefaults().currency : settings.currency;
+          const currency = (!settings || !settings.currency) ? this.settingsDataProvider.getDefaults().currency : settings.currency;
 
-          let fiatHistory = history.getLastWeekPrice(currency.toUpperCase());
-          let btcHistory = history.getLastWeekPrice('BTC');
+          const fiatHistory = history.getLastWeekPrice(currency.toUpperCase());
+          const btcHistory = history.getLastWeekPrice('BTC');
 
           this.chartLabels = null;
 
           this.chartData = [{
-            yAxisID : "A",
+            yAxisID : 'A',
             fill: false,
             data: fiatHistory.prices,
           }, {
-            yAxisID : "B",
+            yAxisID : 'B',
             fill: false,
             data: btcHistory.prices,
           }];
@@ -277,7 +276,14 @@ export class WalletListPage {
             }
           };
 
+          if (currency === 'btc') {
+            this.chartData[0].data = [];
+          }
+
           setTimeout(() => this.chartLabels = lodash.map(fiatHistory.dates, (d: Date) => days[d.getDay()]), 0);
+          if (this.chart && this.chart.chart) {
+            this.chart.chart.update();
+          }
 
         });
       });
@@ -289,7 +295,7 @@ export class WalletListPage {
     this.btcCurrency = ticker.getCurrency({ code: 'btc' });
 
     this.settingsDataProvider.settings.subscribe((settings) => {
-      let currency = settings.currency == 'btc' ? this.settingsDataProvider.getDefaults().currency : settings.currency;
+      const currency = (!settings || !settings.currency) ? this.settingsDataProvider.getDefaults().currency : settings.currency;
 
       this.fiatCurrency = ticker.getCurrency({ code: currency });
       this.loadWallets();
@@ -308,17 +314,15 @@ export class WalletListPage {
     // On refresh price
     this.marketDataProvider.onUpdateTicker$.takeUntil(this.unsubscriber$).subscribe((ticker) => this.setTicker(ticker));
 
-    // wait 5sec to refresh the price
-    setTimeout(() => this.marketDataProvider.refreshPrice(), constants.WALLET_REFRESH_PRICE_MILLISECONDS);
+    this.marketDataProvider.refreshPrice();
+    setInterval(() => this.marketDataProvider.refreshPrice(), constants.WALLET_REFRESH_PRICE_MILLISECONDS);
 
-    this.content.resize();
-  }
-
-  ionViewDidLoad() {
     // Fetch from api or get from storage
     this.marketDataProvider.fetchHistory().subscribe((history) => {
-      this.marketHistory = history
+      this.marketHistory = history;
     }, () => this.marketDataProvider.history.subscribe((history) => this.marketHistory = history));
+
+    this.content.resize();
   }
 
   ngOnDestroy() {

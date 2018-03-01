@@ -1,5 +1,5 @@
-import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, ModalController } from 'ionic-angular';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import { IonicPage, NavController, AlertController, ModalController } from 'ionic-angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 import { Subject } from 'rxjs/Subject';
@@ -7,15 +7,14 @@ import 'rxjs/add/operator/takeUntil';
 
 import { TranslateService } from '@ngx-translate/core';
 
-import { UserSettings, Wallet, WalletKeys } from '@models/model';
+import { Wallet, WalletKeys } from '@models/model';
 import { SettingsDataProvider } from '@providers/settings-data/settings-data';
 import { UserDataProvider } from '@providers/user-data/user-data';
 import { PinCodeComponent } from '@components/pin-code/pin-code';
 
-import lodash from 'lodash';
 import * as constants from '@app/app.constants';
 
-let packageJson = require('@root/package.json');
+const packageJson = require('@root/package.json');
 
 @IonicPage()
 @Component({
@@ -23,7 +22,7 @@ let packageJson = require('@root/package.json');
   templateUrl: 'settings.html',
   providers: [InAppBrowser],
 })
-export class SettingsPage {
+export class SettingsPage implements OnInit, OnDestroy {
   @ViewChild('pinCode') pinCode: PinCodeComponent;
 
   public objectKeys = Object.keys;
@@ -50,12 +49,11 @@ export class SettingsPage {
   }
 
   openChangePinPage() {
-    let modal = this.modalCtrl.create('PinCodeModal', {
+    const modal = this.modalCtrl.create('PinCodeModal', {
       message: 'PIN_CODE.DEFAULT_MESSAGE',
       outputPassword: true,
       validatePassword: true,
     });
-    let that = this;
 
     modal.present();
     modal.onDidDismiss((password) => {
@@ -66,14 +64,14 @@ export class SettingsPage {
   }
 
   openWalletBackupPage() {
-    if (!this.currentWallet || this.currentWallet.isWatchOnly) return this.presentSelectWallet();
+    if (!this.currentWallet || this.currentWallet.isWatchOnly) { return this.presentSelectWallet(); }
 
     this.onEnterPinCode = this.showBackup;
     this.pinCode.open('PIN_CODE.DEFAULT_MESSAGE', true);
   }
 
   openPrivacyPolicy() {
-    return this.inAppBrowser.create(constants.PRIVACY_POLICY_URL);
+    return this.inAppBrowser.create(constants.PRIVACY_POLICY_URL, '_system');
   }
 
   confirmClearData() {
@@ -83,7 +81,7 @@ export class SettingsPage {
       'ARE_YOU_SURE',
       'SETTINGS_PAGE.CLEAR_DATA_TEXT',
     ]).takeUntil(this.unsubscriber$).subscribe((translation) => {
-      let confirm = this.alertCtrl.create({
+      const confirm = this.alertCtrl.create({
         title: translation.ARE_YOU_SURE,
         message: translation['SETTINGS_PAGE.CLEAR_DATA_TEXT'],
         buttons: [
@@ -109,28 +107,30 @@ export class SettingsPage {
       'SETTINGS_PAGE.SELECT_WALLET_FIRST_TEXT',
       'SETTINGS_PAGE.NOT_AVAILABLE_WATCH_ONLY',
     ]).subscribe((translation) => {
-      let message = this.currentWallet && this.currentWallet.isWatchOnly ? translation['SETTINGS_PAGE.NOT_AVAILABLE_WATCH_ONLY'] : translation['SETTINGS_PAGE.SELECT_WALLET_FIRST_TEXT'];
+      const message = this.currentWallet && this.currentWallet.isWatchOnly
+        ? translation['SETTINGS_PAGE.NOT_AVAILABLE_WATCH_ONLY']
+        : translation['SETTINGS_PAGE.SELECT_WALLET_FIRST_TEXT'];
 
-      let alert = this.alertCtrl.create({
+      const alert = this.alertCtrl.create({
         message,
         buttons: [{
           text: 'Ok'
         }]
-      })
+      });
 
       alert.present();
     });
   }
 
-  private clearData(event) {
+  private clearData() {
     this.settingsDataProvider.clearData();
     this.navCtrl.setRoot('IntroPage');
   }
 
   private showBackup(keys: WalletKeys) {
-    if (!keys) return;
+    if (!keys) { return; }
 
-    let modal = this.modalCtrl.create('WalletBackupModal', {
+    const modal = this.modalCtrl.create('WalletBackupModal', {
       title: 'SETTINGS_PAGE.WALLET_BACKUP',
       keys,
     });

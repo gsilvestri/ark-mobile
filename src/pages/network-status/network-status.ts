@@ -1,12 +1,14 @@
-import { Component, NgZone } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
+import {Component, NgZone, OnDestroy} from '@angular/core';
+import { IonicPage, LoadingController } from 'ionic-angular';
 
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/takeUntil';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/debounceTime';
 
 import { ArkApiProvider } from '@providers/ark-api/ark-api';
 
-import { Network, Peer, PeerResponse } from 'ark-ts';
+import { Network, Peer } from 'ark-ts';
 
 import * as constants from '@app/app.constants';
 import { TranslateService } from '@ngx-translate/core';
@@ -17,20 +19,17 @@ import { ToastProvider } from '@providers/toast/toast';
   selector: 'page-network-status',
   templateUrl: 'network-status.html',
 })
-export class NetworkStatusPage {
+export class NetworkStatusPage implements OnDestroy {
 
   public currentNetwork: Network;
   public currentPeer: Peer;
 
-  private subscriber$: Observable<PeerResponse>;
   private unsubscriber$: Subject<void> = new Subject<void>();
 
   private refreshIntervalListener;
   private loader;
 
   constructor(
-    private navCtrl: NavController,
-    private navParams: NavParams,
     private arkApiProvider: ArkApiProvider,
     private loadingCtrl: LoadingController,
     private zone: NgZone,
@@ -72,8 +71,9 @@ export class NetworkStatusPage {
     this.arkApiProvider.onUpdatePeer$
       .takeUntil(this.unsubscriber$)
       .do((peer) => {
-        if (this.loader) this.loader.dismiss();
-        this.translateService.get('NETWORKS_PAGE.PEER_SUCCESSFULLY_CHANGED').subscribe((translate) => this.toastProvider.success(translate));
+        if (this.loader) { this.loader.dismiss(); }
+        this.translateService.get('NETWORKS_PAGE.PEER_SUCCESSFULLY_CHANGED')
+          .subscribe((translate) => this.toastProvider.success(translate));
         this.zone.run(() => this.currentPeer = peer);
       }).subscribe();
   }

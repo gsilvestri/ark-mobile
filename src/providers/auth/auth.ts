@@ -1,30 +1,29 @@
 import { Injectable } from '@angular/core';
 import { StorageProvider } from '@providers/storage/storage';
-import { App, ModalController } from 'ionic-angular';
 
-import { Observable, BehaviorSubject, Subject } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/takeUntil';
+import 'rxjs/add/operator/share';
 
 import * as constants from '@app/app.constants';
-import lodash from 'lodash';
 import * as bcrypt from 'bcryptjs';
+import moment from 'moment';
 
 @Injectable()
 export class AuthProvider {
 
   public onLogin$: Subject<string> = new Subject();
   public onLogout$: Subject<boolean> = new Subject();
-  public onSeeIntro$: Subject<void> = new Subject();
 
   public loggedProfileId: string;
 
   constructor(
-    private storage: StorageProvider,
-    private app: App,
+    private storage: StorageProvider
   ) { }
 
-  login(profileId: string, password?: string): Observable<boolean> {
+  login(profileId: string): Observable<boolean> {
     return Observable.create((observer) => {
       this.loggedProfileId = profileId;
       this.storage.set(constants.STORAGE_ACTIVE_PROFILE, profileId);
@@ -41,7 +40,7 @@ export class AuthProvider {
     this.storage.set(constants.STORAGE_ACTIVE_PROFILE, undefined);
     this.loggedProfileId = undefined;
 
-    if (broadcast) this.onLogout$.next(false);
+    if (broadcast) { this.onLogout$.next(false); }
   }
 
   hasSeenIntro(): Observable<boolean> {
@@ -62,7 +61,7 @@ export class AuthProvider {
   }
 
   saveMasterPassword(password: string): void {
-    let hash = bcrypt.hashSync(password, 8);
+    const hash = bcrypt.hashSync(password, 8);
 
     this.storage.set(constants.STORAGE_MASTERPASSWORD, hash);
   }
@@ -71,13 +70,42 @@ export class AuthProvider {
     return Observable.create((observer) => {
       this.storage.get(constants.STORAGE_MASTERPASSWORD).subscribe((master) => {
         bcrypt.compare(password, master, (err, res) => {
-          if (err) observer.error(err);
+          if (err) { observer.error(err); }
 
           observer.next(res);
           observer.complete();
         });
       });
     });
+  }
+
+  getUnlockTimestamp() {
+    return this.storage.getObject(constants.STORAGE_AUTH_UNLOCK_TIMESTAMP);
+  }
+
+  getAttempts() {
+    return this.storage.get(constants.STORAGE_AUTH_ATTEMPTS);
+  }
+
+  increaseAttempts() {
+    return this.getAttempts().do((attempts) => this.storage.set(constants.STORAGE_AUTH_ATTEMPTS, Number(attempts) + 1));
+  }
+
+  increaseUnlockTimestamp(): Promise<Date> {
+    return new Promise(resolve => {
+      this.getAttempts().subscribe((attempts) => {
+        const currentAttempt = (Number(attempts) - constants.PIN_ATTEMPTS_LIMIT) + 1;
+        const lastTimestamp = moment(moment.now());
+        const nextTimestamp = lastTimestamp.add(constants.PIN_ATTEMPTS_TIMEOUT_MILLISECONDS * currentAttempt, 'ms').toDate();
+        this.storage.set(constants.STORAGE_AUTH_UNLOCK_TIMESTAMP, nextTimestamp);
+        resolve(nextTimestamp);
+      });
+    });
+  }
+
+  clearAttempts() {
+    this.storage.set(constants.STORAGE_AUTH_UNLOCK_TIMESTAMP, null);
+    this.storage.set(constants.STORAGE_AUTH_ATTEMPTS, 0);
   }
 
 }

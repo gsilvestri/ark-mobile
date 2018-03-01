@@ -2,14 +2,14 @@ import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 import { UserDataProvider } from '@providers/user-data/user-data';
-import { ToastProvider } from '@providers/toast/toast';
 
-import { Contact } from '@models/contact';
+import { Contact, QRCodeScheme } from '@models/model';
 import { PublicKey } from 'ark-ts/core';
 
 import { QRScannerComponent } from '@components/qr-scanner/qr-scanner';
 
 import lodash from 'lodash';
+import { ToastProvider } from '@providers/toast/toast';
 
 @IonicPage()
 @Component({
@@ -21,7 +21,6 @@ export class ContactCreatePage {
   @ViewChild('qrScanner') qrScanner: QRScannerComponent;
 
   public isNew: boolean;
-  public isValid: boolean = false;
 
   public contact: Contact;
   public address: string;
@@ -33,9 +32,9 @@ export class ContactCreatePage {
     private navCtrl: NavController,
     private navParams: NavParams,
     private userDataProvider: UserDataProvider,
-    private toastProvider: ToastProvider,
+    private toastProvider: ToastProvider
   ) {
-    let param = this.navParams.get('contact');
+    const param = this.navParams.get('contact');
     this.address = this.navParams.get('address');
 
     this.isNew = lodash.isEmpty(param);
@@ -45,9 +44,9 @@ export class ContactCreatePage {
   }
 
   validateAddress() {
-    let validate = PublicKey.validateAddress(this.address, this.currentNetwork);
-    this.createContactForm.form.controls['address'].setErrors({ incorret: !validate });
-    if (validate) this.createContactForm.form.controls['address'].setErrors(null);
+    const validate = PublicKey.validateAddress(this.address, this.currentNetwork);
+    this.createContactForm.form.controls['address'].setErrors({ incorrect: !validate });
+    if (validate) { this.createContactForm.form.controls['address'].setErrors(null); }
 
     return validate;
   }
@@ -73,13 +72,15 @@ export class ContactCreatePage {
   }
 
   scanQRCode() {
-    this.qrScanner.open();
+    this.qrScanner.open(true);
   }
 
-  onScanQRCode(qrCode: object) {
-    if (qrCode['a']) {
-      this.address = qrCode['a'];
+  onScanQRCode(qrCode: QRCodeScheme) {
+    if (qrCode.address) {
+      this.address = qrCode.address;
       this.validateAddress();
+    } else {
+      this.toastProvider.error('QR_CODE.INVALID_QR_ERROR');
     }
   }
 

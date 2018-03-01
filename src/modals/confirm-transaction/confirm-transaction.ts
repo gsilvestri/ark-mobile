@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController, LoadingController } from 'ionic-angular';
 
 import { Subject } from 'rxjs/Subject';
@@ -18,7 +18,7 @@ import lodash from 'lodash';
   selector: 'modal-confirm-transaction',
   templateUrl: 'confirm-transaction.html',
 })
-export class ConfirmTransactionModal {
+export class ConfirmTransactionModal implements OnDestroy {
 
   public transaction: Transaction;
   public address: string;
@@ -41,7 +41,7 @@ export class ConfirmTransactionModal {
     this.transaction = this.navParams.get('transaction');
     this.address = this.transaction.address;
 
-    if (!this.transaction) this.navCtrl.pop();
+    if (!this.transaction) { this.navCtrl.pop(); }
     this.loadingCtrl.create().dismissAll();
 
     this.currentNetwork = this.arkApiProvider.network;
@@ -49,7 +49,7 @@ export class ConfirmTransactionModal {
 
   broadcast() {
     this.arkApiProvider.postTransaction(this.transaction)
-      .subscribe((response) => {
+      .subscribe(() => {
         this.dismiss(true);
       }, (error) => {
         this.dismiss(false, error.error);
@@ -57,15 +57,15 @@ export class ConfirmTransactionModal {
   }
 
   dismiss(status?: boolean, message?: string) {
-    if (lodash.isUndefined(status)) return this.viewCtrl.dismiss();
+    if (lodash.isUndefined(status)) { return this.viewCtrl.dismiss(); }
 
-    let response = { status, message };
+    const response = { status, message };
     this.viewCtrl.dismiss(response);
   }
 
   private onUpdateTicker() {
     this.marketDataProvider.onUpdateTicker$.takeUntil(this.unsubscriber$).do((ticker) => {
-      if (!ticker) return;
+      if (!ticker) { return; }
 
       this.ticker = ticker;
       this.settingsDataProvider.settings.subscribe((settings) => {

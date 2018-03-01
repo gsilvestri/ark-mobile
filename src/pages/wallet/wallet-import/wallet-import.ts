@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, ModalController } from 'ionic-angular';
 import { Wallet, QRCodeScheme } from '@models/model';
 import { UserDataProvider } from '@providers/user-data/user-data';
 import { ArkApiProvider } from '@providers/ark-api/ark-api';
@@ -20,7 +20,6 @@ export class WalletImportPage {
 
   constructor(
     private navCtrl: NavController,
-    private navParams: NavParams,
     private userDataProvider: UserDataProvider,
     private arkApiProvider: ArkApiProvider,
     private toastProvider: ToastProvider,
@@ -42,7 +41,7 @@ export class WalletImportPage {
       let privateKey = null;
       let publicKey = null;
       let address = qrCode.address || null;
-      let passphrase = qrCode.passphrase || null;
+      const passphrase = qrCode.passphrase || null;
       if (address) {
         if (PublicKey.validateAddress(address, this.currentNetwork)) {
           publicKey = PublicKey.fromAddress(address);
@@ -56,14 +55,14 @@ export class WalletImportPage {
         address = publicKey.getAddress();
       }
 
-      if (!publicKey) return;
+      if (!publicKey) { return; }
 
       let newWallet = new Wallet(!privateKey);
       this.arkApiProvider.api.account
         .get({ address })
         .finally(() => {
           if (privateKey) {
-            let modal = this.modalCtrl.create('PinCodeModal', {
+            const modal = this.modalCtrl.create('PinCodeModal', {
               message: 'PIN_CODE.TYPE_PIN_ENCRYPT_PASSPHRASE',
               outputPassword: true,
               validatePassword: true,
@@ -71,7 +70,7 @@ export class WalletImportPage {
 
             modal.onDidDismiss((password) => {
               if (password) {
-                this.userDataProvider.addWallet(newWallet, passphrase, password).subscribe((result) => {
+                this.userDataProvider.addWallet(newWallet, passphrase, password).subscribe(() => {
                   this.navCtrl.push('WalletDashboardPage', { address: newWallet.address })
                     .then(() => {
                       this.navCtrl.remove(this.navCtrl.getActive().index - 1, 1).then(() => {
@@ -86,7 +85,7 @@ export class WalletImportPage {
 
             modal.present();
           } else {
-            this.userDataProvider.addWallet(newWallet, null, '').subscribe((result) => {
+            this.userDataProvider.addWallet(newWallet, null, '').subscribe(() => {
               this.navCtrl.push('WalletDashboardPage', { address: newWallet.address })
                 .then(() => {
                   this.navCtrl.remove(this.navCtrl.getActive().index - 1, 1);
@@ -96,7 +95,7 @@ export class WalletImportPage {
         })
         .subscribe((response) => {
           if (response && response.success) {
-            let account = response.account;
+            const account = response.account;
 
             newWallet = newWallet.deserialize(account);
           } else {

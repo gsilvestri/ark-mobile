@@ -1,18 +1,14 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { WALLET_UNIT_TO_SATOSHI } from '@app/app.constants';
+import { ArkUtility } from '../../utils/ark-utility';
 
 @Pipe({
   name: 'unitsSatoshi',
 })
 export class UnitsSatoshiPipe implements PipeTransform {
 
-  transform(value: number | string, parse: boolean = false, ...args) {
-    if (typeof value === 'string') value = Number(value);
+  transform(value: number | string, returnRaw: boolean = false) {
+    if (typeof value === 'string') { value = Number(value); }
 
-    let result = value / WALLET_UNIT_TO_SATOSHI;
-
-    if (parse) result = Math.trunc(result);
-
-    return result;
+    return ArkUtility.arktoshiToArk(value, returnRaw);
   }
 }
