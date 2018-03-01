@@ -62,6 +62,7 @@
     "@types/lodash": "^4.14.91",
     "@types/moment-timezone": "^0.5.2",
     "@types/uuid": "^3.4.3",
+	"@types/node": "8.5.2",
     "android-versions": "^1.2.1",
     "angular2-qrcode": "^2.0.1",
     "ark-ts": "^0.3.3",

@@ -63,8 +63,7 @@ export class MarketDataProvider {
 
     const url = `${constants.API_MARKET_URL}/${constants.API_MARKET_TICKER_ENDPOINT}`;
 
-    const currenciesList = model.CURRENCIES_LIST.map((currency) => {
-      return currency.code.toUpperCase();
+    const currenciesList = model.CURRENCIES_LIST.map((currency) => {      return currency.code.toUpperCase();
     }).join(',');
 
     return this.http.get(url + currenciesList).map((response) => {
