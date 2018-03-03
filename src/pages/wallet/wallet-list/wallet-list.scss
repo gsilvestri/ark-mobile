@@ -14,7 +14,7 @@ page-wallet-list {
     padding: 0 25px;
 
     p {
-      color: darken(color($colors, dark, base), 35%);
+      color: lighten(color($colors, dark, base), 35%);
       margin-bottom: 0;
     }
 
@@ -26,7 +26,7 @@ page-wallet-list {
       .fiat {
         font-size: 1.5rem;
         margin-left: 1em;
-        color: darken(color($colors, dark, base), 35%);
+        color: lighten(color($colors, dark, base), 35%);
       }
     }
   }

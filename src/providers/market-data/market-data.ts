@@ -60,10 +60,10 @@ export class MarketDataProvider {
   }
 
   private fetchTicker(): Observable<model.MarketTicker> {
-
     const url = `${constants.API_MARKET_URL}/${constants.API_MARKET_TICKER_ENDPOINT}`;
 
-    const currenciesList = model.CURRENCIES_LIST.map((currency) => {      return currency.code.toUpperCase();
+    const currenciesList = model.CURRENCIES_LIST.map((currency) => {
+      return currency.code.toUpperCase();
     }).join(',');
 
     return this.http.get(url + currenciesList).map((response) => {
@@ -85,7 +85,6 @@ export class MarketDataProvider {
     const myCurrencyCode = ((!this.settings || !this.settings.currency)
       ? this.settingsDataProvider.getDefaults().currency
       : this.settings.currency).toUpperCase();
-
     return this.http.get(url + 'BTC')
       .map((btcResponse) => btcResponse)
       .flatMap((btcResponse) => this.http.get(url + myCurrencyCode).map((currencyResponse) => {
