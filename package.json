@@ -25,9 +25,6 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "ionic:build:before": "node ./kapu_customize/ark-ts/copy_src_config_index.js",
-    "ionic:watch:before": "node ./kapu_customize/ark-ts/copy_src_config_index.js",
-    "ionic:serve:before": "node ./kapu_customize/ark-ts/copy_src_config_index.js",
     "clean": "ionic-app-scripts clean",
     "build": "ionic-app-scripts build",
     "lint": "ionic-app-scripts lint",

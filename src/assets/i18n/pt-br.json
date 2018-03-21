@@ -192,7 +192,7 @@
       "ADD_WALLET_TEXT": "Para importar ou criar uma carteira click no botão abaixo",
       "ADDRESS": "Endereço",
       "ALERT_SUCCESSFULLY_ENCRYPTED_SECOND_PASSPHRASE": "O segundo passphrase foi encriptado com sucesso",
-      "BACKUP_ACCOUNT": "IMPORTANTE! Faça o backup desta 'secrta passphrase' de forma segura, sem essas palavras você não pode restaurar sua carteira ou enviar transações e TODOS OS TOKENS DE ARK SERÃO PERDIDOS",
+      "BACKUP_ACCOUNT": "IMPORTANTE! Faça o backup desta 'secrta passphrase' de forma segura, sem essas palavras você não pode restaurar sua carteira ou enviar transações e TODOS OS TOKENS DE KAPU SERÃO PERDIDOS",
       "BACKUP_PASSPHRASE": "Faça backup da passphrase de forma segura, sem essas palavras você não consiguirá restaura sua wallet.",
       "BACKUP_SECOND_PASSPHRASE": "Faça backup da segunda passphrase de forma segura, sem essas paralavras voucê não consiguira mover seus fundos.",
       "BACKUP_SECOND_PASSPHRASE_SECURELY_RETYPE_TEXT": "Você pode editar para uma senha de sua escolha. Lembre-se de fazer backup com segurança, você precisará re-digitar para validação.",
