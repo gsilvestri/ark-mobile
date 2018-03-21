@@ -54,7 +54,7 @@
   "DELETE": "Löschen",
   "DONE": "Fertig",
   "EDIT": "Bearbeiten",
-  "EXIT": "Beenden",
+  "SIGN_OUT": "Ausloggen",
   "EXIT_APP_TEXT": "App beenden?",
   "FAILED": "Fehlgeschlagen",
   "GENERAL": "Generell",
@@ -69,12 +69,12 @@
     "TEXT_3": "Wechsle zwischen Profilen und Wallets, prüfe deinen Kontostand, sende und empfange Guthaben und vieles mehr",
     "WELCOME": "Willkommen an Board"
   },
-  "LOGIN_PAGE": {
-    "ARK_WALLET": "KAPU Wallet",
+  "SIGN_IN_PAGE": {
+    "ARK_WALLET": "ARK Wallet",
     "CREATE_PROFILE": "Erstelle ein Profil",
-    "SLOGAN": "Willkommen beim KAPU Ecosystem"
+    "SLOGAN": "Willkommen beim ARK Ecosystem"
   },
-  "LOGOUT_PROFILE_TEXT": "Ausloggen?",
+  "SIGN_OUT_PROFILE_TEXT": "Ausloggen?",
   "MARKETS_PAGE": {
     "MARKET_CAP": "Markt Cap.",
     "MARKET_DATA": "Markt Daten",
@@ -107,7 +107,7 @@
     "DEFAULT_MESSAGE": "Gib deinen PIN ein",
     "WRONG_PIN_MANY_TIMES": "Du hast zu viele Male einen falschen PIN eingegeben.",
     "WAIT_TO_TRY": "Bitte warte {{ time }} und versuche es noch einmal",
-    "LOGIN_ERROR": "Es gab ein Problem beim Einloggen mit deinem PIN",
+    "SIGN_IN_ERROR": "Es gab ein Problem beim Einloggen mit deinem PIN",
     "PIN_CREATED_ERROR_TEXT": "Es gab ein Problem beim Erstellen deines PINs",
     "PIN_CREATED_TEXT": "Dein PIN wurde erstellt",
     "PIN_UPDATED_ERROR_TEXT": "Es gab ein Problem beim Aktualisieren deines PINs",
@@ -198,7 +198,7 @@
     "ADD_WALLET_TEXT": "Um ein Wallet zu importieren oder hinzuzufügen, klicke den nachfolgenden Button",
     "ADDRESS": "Adresse",
     "ALERT_SUCCESSFULLY_ENCRYPTED_SECOND_PASSPHRASE": "Die zweite Passphrase wurde erfolgreich verschlüsselt",
-    "BACKUP_ACCOUNT": "WICHTIG! Sichere diese geheime Passphrase, ohne diese Wörter kannst du dein Wallet nicht wiederherstellen und ALLE DEINE KAPU MÜNZEN WERDEN VERLOREN SEIN.",
+    "BACKUP_ACCOUNT": "WICHTIG! Sichere diese geheime Passphrase, ohne diese Wörter kannst du dein Wallet nicht wiederherstellen und ALLE DEINE ARK MÜNZEN WERDEN VERLOREN SEIN.",
     "BACKUP_PASSPHRASE": "Sichere diese geheime Passphrase, ohne diese Wörter kannst du dein Wallet nicht wiederherstellen.",
     "BACKUP_SECOND_PASSPHRASE": "Sichere diese zweite Passphrase, ohne diese Wörter kannst du dein Wallet nicht wiederherstellen.",
     "BACKUP_SECOND_PASSPHRASE_SECURELY_RETYPE_TEXT": "Du kannst eine Passphrase deiner Wahl hinzufügen. Vergiss nicht diese zu sichern, du musst sie nachher nochmals zur Bestätigung eingeben.",

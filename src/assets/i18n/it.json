@@ -48,7 +48,6 @@
   "DELETE": "Elimina",
   "DONE": "Fatto",
   "EDIT": "Modifica",
-  "EXIT": "Esci",
   "EXIT_APP_TEXT": "Esci dall'applicazione?",
   "FAILED": "Fallito",
   "GENERAL": "Generale",
@@ -58,17 +57,17 @@
     "FAST_EASY": "Veloce e Facile",
     "GET_STARTED": "Iniziamo",
     "SECURITY": "Securezza",
-    "TEXT_1": "Forniamo tutti gli strumenti necessari per gestire i token KAPU, sempre e ovunque, in tutto il mondo!",
+    "TEXT_1": "Forniamo tutti gli strumenti necessari per gestire i token ARK , sempre e ovunque, in tutto il mondo!",
     "TEXT_2": "Tutti i tuoi dati sensibili sono archiviati in modo sicuro utilizzando l'algoritmo PBKDF2 e la crittografia AES-256 protetta dal tuo codice PIN",
     "TEXT_3": "Scorri tra i profili e i portafogli, controlla i tuoi saldi, invia e ricevi fondi e molto altro ancora",
     "WELCOME": "Benvenuto a bordo"
   },
-  "LOGIN_PAGE": {
-    "ARK_WALLET": "KAPU Wallet",
+  "SIGN_IN_PAGE": {
+    "ARK_WALLET": "ARK  Wallet",
     "CREATE_PROFILE": "Crea un profilo",
-    "SLOGAN": "Benvenuto nel mondo KAPU"
+    "SLOGAN": "Benvenuto nel mondo ARK "
   },
-  "LOGOUT_PROFILE_TEXT": "Uscire dal Profilo?",
+  "SIGN_OUT_PROFILE_TEXT": "Uscire dal Profilo?",
   "MARKETS_PAGE": {
     "MARKET_CAP": "Market Cap.",
     "MARKET_DATA": "Market Data",
@@ -101,7 +100,7 @@
     "DEFAULT_MESSAGE": "Immetti il tuo PIN",
     "WRONG_PIN_MANY_TIMES": "Hai inserito il codice PIN sbagliato troppe volte!",
     "WAIT_TO_TRY": "Si prega di attendere {{ time }} e riprovare",
-    "LOGIN_ERROR": "Si è verificato un problema durante l'accesso con il tuo PIN",
+    "SIGN_IN_ERROR": "Si è verificato un problema durante l'accesso con il tuo PIN",
     "PIN_CREATED_ERROR_TEXT": "Si è verificato un problema creando il tuo PIN",
     "PIN_CREATED_TEXT": "Il tuo PIN è stato creato",
     "PIN_UPDATED_ERROR_TEXT": "Si è verificato un problema aggiornando il tuo PIN",
@@ -192,7 +191,7 @@
     "ADD_WALLET_TEXT": "Per importare o creare il Portafoglio clicca sul pulsante qui sotto",
     "ADDRESS": "Indirizzo",
     "ALERT_SUCCESSFULLY_ENCRYPTED_SECOND_PASSPHRASE": "La seconda frase segreta è stata crittografata con successo",
-    "BACKUP_ACCOUNT": "IMPORTANTE! Esegui il backup di questa \"frase segreta\" in modo sicuro, senza queste parole non puoi ripristinare il tuo portafoglio o inviare transazioni e TUTTI i gettoni KAPU SARANNO PERDUTI.",
+    "BACKUP_ACCOUNT": "IMPORTANTE! Esegui il backup di questa \"frase segreta\" in modo sicuro, senza queste parole non puoi ripristinare il tuo portafoglio o inviare transazioni e TUTTI i gettoni ARK  SARANNO PERDUTI.",
     "BACKUP_PASSPHRASE": "Esegui il backup di questa frase segreta in modo sicuro, senza queste parole non puoi ripristinare il tuo portafoglio.",
     "BACKUP_SECOND_PASSPHRASE": "Esegui il backup di questa seconda fras segreta in modo sicuro, senza queste parole non puoi spostare i tuoi fondi.",
     "BACKUP_SECOND_PASSPHRASE_SECURELY_RETYPE_TEXT": "È possibile modificare una password a vostra scelta. Ricordarsi di eseguire il backup in modo sicuro, sarà necessario digitarla nuovamente per la convalida.",
