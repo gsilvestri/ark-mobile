@@ -19,7 +19,6 @@ import { ToastProvider } from '@providers/toast/toast';
 import { ForgeProvider } from '@providers/forge/forge';
 import { ContactsAutoCompleteService } from '@providers/contacts-auto-complete/contacts-auto-complete';
 
-
 // Ionic native
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
@@ -31,8 +30,6 @@ import { MyApp } from './app.component';
 
 import '@root/node_modules/chart.js/src/chart.js';
 import { AutoCompleteModule } from 'ionic2-auto-complete';
-
-import { Network } from '@providers/kapu-ts/network';
 
 export function httpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -79,8 +76,7 @@ export function httpLoaderFactory(http: HttpClient) {
     SettingsDataProvider,
     ForgeProvider,
     ToastProvider,
-    ContactsAutoCompleteService,
-    Network
+    ContactsAutoCompleteService
   ]
 })
 export class AppModule {}

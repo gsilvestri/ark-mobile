@@ -98,7 +98,7 @@ export default {
         public: 0x043587cf,
         private: 0x04358394,
       },*/
-      name: 'devnet.kapu',
+      name: 'devnet',
       nethash: 'f1ef11be7a879671b3019a785c9a2c9dbd9d800b05644d26ad132275ffe2dd48',
       token: 'KAPU',
       symbol: 'Dʞ',

@@ -21,7 +21,6 @@ import * as constants from '@app/app.constants';
 import moment from 'moment';
 import { Wallet } from '@models/wallet';
 
-
 @Component({
   templateUrl: 'app.html',
   providers: [ScreenOrientation, Network],
@@ -266,4 +265,3 @@ export class MyApp implements OnInit, OnDestroy {
   }
 
 }
-

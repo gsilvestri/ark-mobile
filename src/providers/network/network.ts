@@ -1,7 +1,7 @@
 import { UserDataProvider } from '@providers/user-data/user-data';
 import { Injectable } from '@angular/core';
 import { PublicKey } from 'ark-ts/core';
-import { Network } from '@providers/kapu-ts/network';
+import { Network } from 'ark-ts';
 
 @Injectable()
 export class NetworkProvider {

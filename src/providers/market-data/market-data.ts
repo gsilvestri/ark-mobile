@@ -50,6 +50,7 @@ export class MarketDataProvider {
   get cachedHistory(): model.MarketHistory {
      return this.marketHistory;
   }
+
   get ticker(): Observable<model.MarketTicker> {
     if (this.marketTicker) { return Observable.of(this.marketTicker); }
 
@@ -59,6 +60,7 @@ export class MarketDataProvider {
   get cachedTicker(): model.MarketTicker {
      return this.marketTicker;
   }
+
   refreshTicker(): void {
     this.fetchTicker().subscribe((ticker) => {
       this.onUpdateTicker$.next(ticker);

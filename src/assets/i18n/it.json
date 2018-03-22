@@ -191,7 +191,7 @@
     "ADD_WALLET_TEXT": "Per importare o creare il Portafoglio clicca sul pulsante qui sotto",
     "ADDRESS": "Indirizzo",
     "ALERT_SUCCESSFULLY_ENCRYPTED_SECOND_PASSPHRASE": "La seconda frase segreta è stata crittografata con successo",
-    "BACKUP_ACCOUNT": "IMPORTANTE! Esegui il backup di questa \"frase segreta\" in modo sicuro, senza queste parole non puoi ripristinare il tuo portafoglio o inviare transazioni e TUTTI i gettoni KAPU  SARANNO PERDUTI.",
+    "BACKUP_ACCOUNT": "IMPORTANTE! Esegui il backup di questa \"frase segreta\" in modo sicuro, senza queste parole non puoi ripristinare il tuo portafoglio o inviare transazioni e TUTTI i gettoni KAPU SARANNO PERDUTI.",
     "BACKUP_PASSPHRASE": "Esegui il backup di questa frase segreta in modo sicuro, senza queste parole non puoi ripristinare il tuo portafoglio.",
     "BACKUP_SECOND_PASSPHRASE": "Esegui il backup di questa seconda fras segreta in modo sicuro, senza queste parole non puoi spostare i tuoi fondi.",
     "BACKUP_SECOND_PASSPHRASE_SECURELY_RETYPE_TEXT": "È possibile modificare una password a vostra scelta. Ricordarsi di eseguire il backup in modo sicuro, sarà necessario digitarla nuovamente per la convalida.",
