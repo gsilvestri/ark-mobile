@@ -32,6 +32,7 @@ import { MyApp } from './app.component';
 import '@root/node_modules/chart.js/src/chart.js';
 import { AutoCompleteModule } from 'ionic2-auto-complete';
 
+import { Network } from '@providers/kapu-ts/network';
 
 export function httpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -78,7 +79,8 @@ export function httpLoaderFactory(http: HttpClient) {
     SettingsDataProvider,
     ForgeProvider,
     ToastProvider,
-    ContactsAutoCompleteService
+    ContactsAutoCompleteService,
+    Network
   ]
 })
 export class AppModule {}

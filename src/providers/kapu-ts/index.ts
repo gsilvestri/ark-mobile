@@ -98,16 +98,16 @@ export default {
         public: 0x043587cf,
         private: 0x04358394,
       },*/
-      name: 'devnet',
+      name: 'devnet.kapu',
       nethash: 'f1ef11be7a879671b3019a785c9a2c9dbd9d800b05644d26ad132275ffe2dd48',
       token: 'KAPU',
       symbol: 'Dʞ',
       version: 0x50,
       explorer: 'https://explorer.devnet.kapunode.net',
-      /*wif: 0xba,*/
+      wif: 0xba,
       activePeer: {
-        ip: '51.15.198.173',
-        port: 4600,
+        ip: '199.247.24.132',
+        port: 4100,
       },
       peers: [
       ],
