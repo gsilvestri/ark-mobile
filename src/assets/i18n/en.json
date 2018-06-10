@@ -54,7 +54,7 @@
   "DELETE": "Delete",
   "DONE": "Done",
   "EDIT": "Edit",
-  "EXIT": "Exit",
+  "SIGN_OUT": "Sign out",
   "EXIT_APP_TEXT": "Exit App?",
   "FAILED": "Failed",
   "GENERAL": "General",
@@ -64,17 +64,17 @@
     "FAST_EASY": "Fast and Easy",
     "GET_STARTED": "Get Started",
     "SECURITY": "Security",
-    "TEXT_1": "We provide all the tools you need to manage your ARK tokens, anytime, anywhere, worldwide!",
+    "TEXT_1": "We provide all the tools you need to manage your KAPU tokens, anytime, anywhere, worldwide!",
     "TEXT_2": "All your sensitive data is securely stored using PBKDF2 algorithm and AES-256 encryption protected by your PIN Code",
     "TEXT_3": "Swipe between profiles and wallets, check your balances, send and receive funds and much more",
     "WELCOME": "Welcome Aboard"
   },
-  "LOGIN_PAGE": {
+  "SIGN_IN_PAGE": {
     "ARK_WALLET": "KAPU Wallet",
     "CREATE_PROFILE": "Create a profile",
     "SLOGAN": "Welcome to the KAPU Ecosystem"
   },
-  "LOGOUT_PROFILE_TEXT": "Logout of Profile?",
+  "SIGN_OUT_PROFILE_TEXT": "Sign out of Profile?",
   "MARKETS_PAGE": {
     "MARKET_CAP": "Market Cap.",
     "MARKET_DATA": "Market Data",
@@ -107,14 +107,16 @@
     "DEFAULT_MESSAGE": "Type your PIN",
     "WRONG_PIN_MANY_TIMES": "You entered a wrong PIN too many times!",
     "WAIT_TO_TRY": "Please wait {{ time }} and try again",
-    "LOGIN_ERROR": "There was a problem signing in with your PIN",
+    "SIGN_IN_ERROR": "There was a problem signing in with your PIN",
     "PIN_CREATED_ERROR_TEXT": "There was a problem creating your PIN",
     "PIN_CREATED_TEXT": "Your PIN has been created",
     "PIN_UPDATED_ERROR_TEXT": "There was a problem updating your PIN",
     "PIN_UPDATED_TEXT": "Your PIN has been updated",
     "TYPE_PIN_ENCRYPT_PASSPHRASE": "Type your PIN to encrypt passphrase",
     "TYPE_PIN_SIGN_TRANSACTION": "Type your PIN to sign transaction",
-    "WRONG": "Please enter the correct PIN"
+    "WRONG": "Please enter the correct PIN",
+    "WEAK_PIN": "Weak PIN",
+    "WEAK_PIN_DETAIL": "The PIN you entered is considered weak and easy to guess. Are you sure you want to use it?"
   },
   "PROFILES_PAGE": {
     "ADD_PROFILE_ERROR": "Could not add profile",
@@ -225,6 +227,7 @@
     "PUBLIC_ADDRESS_SHARE": "Public Address (SHARE)",
     "PUBLIC_KEY": "Public Key",
     "PASSPHRASE_NOT_BELONG_TO_ADDRESS": "The entered passphrase doesn't belong to the address '{{ address }}'!",
+    "PASSPHRASE_NOT_BIP39": "You have not entered a valid BIP-39 passphrase",
     "RE_ENTER_PASSPHRASE": "Re-enter your passphrase",
     "REMOVE_WALLET": "Remove Wallet",
     "REMOVE_WALLET_TEXT": "Your account will be removed. Make sure you have backed up, you will need the original passphrase to restore.",
