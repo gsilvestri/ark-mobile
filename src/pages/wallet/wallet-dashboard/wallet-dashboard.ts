@@ -9,7 +9,8 @@ import {
   AlertController,
   LoadingController,
   Loading,
-  Content
+  Content,
+  Refresher
 } from 'ionic-angular';
 
 import { Subject } from 'rxjs/Subject';
@@ -58,6 +59,7 @@ export class WalletDashboardPage implements OnInit, OnDestroy {
 
   public onEnterPinCode;
   private newDelegateName: string;
+  private newDelegateFee: number;
   private newSecondPassphrase: string;
 
   public emptyTransactions = false;
@@ -102,6 +104,11 @@ export class WalletDashboardPage implements OnInit, OnDestroy {
     this.clipboard.copy(this.address).then(() => this.toastProvider.success('COPIED_CLIPBOARD'), (err) => this.toastProvider.error(err));
   }
 
+  doRefresh(refresher: Refresher) {
+    this.refreshAccount();
+    this.refreshTransactions(true, refresher);
+  }
+
   presentWalletActionSheet() {
     this.translateService.get([
       'WALLETS_PAGE.LABEL',
@@ -115,7 +122,7 @@ export class WalletDashboardPage implements OnInit, OnDestroy {
       const delegateItem =  {
         text: translation['DELEGATES_PAGE.REGISTER_DELEGATE'],
         role: 'delegate',
-        icon: !this.platform.is('ios') ? 'ios-contact-outline' : '',
+        icon: this.platform.is('ios') ? 'ios-contact-outline' : 'md-contact',
         handler: () => {
           this.presentRegisterDelegateModal();
         },
@@ -124,7 +131,7 @@ export class WalletDashboardPage implements OnInit, OnDestroy {
       const delegatesItem = {
           text: translation['DELEGATES_PAGE.DELEGATES'],
           role: 'label',
-          icon: !this.platform.is('ios') ? 'ios-people-outline' : '',
+          icon: this.platform.is('ios') ? 'ios-people-outline' : 'md-people',
           handler: () => {
             this.presentDelegatesModal();
           },
@@ -134,7 +141,7 @@ export class WalletDashboardPage implements OnInit, OnDestroy {
         {
           text: translation['WALLETS_PAGE.REMOVE_WALLET'],
           role: 'delete',
-          icon: !this.platform.is('ios') ? 'ios-trash-outline' : '',
+          icon: this.platform.is('ios') ? 'ios-trash-outline' : 'md-trash',
           handler: () => {
             this.presentDeleteWalletConfirm();
           }
@@ -146,7 +153,7 @@ export class WalletDashboardPage implements OnInit, OnDestroy {
         buttons.unshift({
           text: translation['WALLETS_PAGE.LABEL'],
           role: 'label',
-          icon: !this.platform.is('ios') ? 'ios-bookmark-outline' : '',
+          icon: this.platform.is('ios') ? 'ios-bookmark-outline' : 'md-bookmark',
           handler: () => {
             this.presentLabelModal();
           },
@@ -156,7 +163,7 @@ export class WalletDashboardPage implements OnInit, OnDestroy {
       const backupItem = {
         text: translation['SETTINGS_PAGE.WALLET_BACKUP'],
         role: 'label',
-        icon: !this.platform.is('ios') ? 'ios-briefcase-outline' : '',
+        icon: this.platform.is('ios') ? 'ios-briefcase-outline' : 'md-briefcase',
         handler: () => {
           this.presentWalletBackupPage();
         }
@@ -172,7 +179,7 @@ export class WalletDashboardPage implements OnInit, OnDestroy {
         buttons.unshift({
           text: translation['WALLETS_PAGE.CONVERT_TO_FULL_WALLET'],
           role: 'label',
-          icon: !this.platform.is('ios') ? 'ios-git-compare-outline' : '',
+          icon: this.platform.is('ios') ? 'ios-git-compare-outline' : 'md-git-compare',
           handler: () => {
             this.navCtrl.push('WalletImportPage', {address: this.wallet.address});
           }
@@ -209,7 +216,7 @@ export class WalletDashboardPage implements OnInit, OnDestroy {
           {
             text: translation['TRANSACTIONS_PAGE.RECEIVE'],
             role: 'receive',
-            icon: !this.platform.is('ios') ? 'ios-arrow-round-down' : '',
+            icon: this.platform.is('ios') ? 'ios-arrow-round-down' : 'md-arrow-round-down',
             handler: () => {
               return this.openTransactionReceive();
             }
@@ -219,7 +226,7 @@ export class WalletDashboardPage implements OnInit, OnDestroy {
           buttons.push({
             text: translation['TRANSACTIONS_PAGE.SEND'],
             role: 'send',
-            icon: !this.platform.is('ios') ? 'ios-arrow-round-up' : '',
+            icon: this.platform.is('ios') ? 'ios-arrow-round-up' : 'md-arrow-round-up',
             handler: () => {
               return this.navCtrl.push('TransactionSendPage');
             }
@@ -255,25 +262,27 @@ export class WalletDashboardPage implements OnInit, OnDestroy {
   }
 
   presentLabelModal() {
-    const modal = this.modalCtrl.create('SetLabelPage', {'label': this.wallet.label }, { cssClass: 'inset-modal-tiny' });
+    const modal = this.modalCtrl.create('SetLabelPage', {'label': this.wallet.label});
 
-    modal.onDidDismiss((data) => {
-      if (lodash.isEmpty(data)) { return; }
-
-      this.zone.run(() => this.wallet.label = data);
-      this.saveWallet();
+    modal.onDidDismiss((label, role) => {
+      if (role === 'submit') {
+        this.userDataProvider
+          .setWalletLabel(this.wallet, label)
+          .subscribe(null, error => this.toastProvider.error(error, 3000));
+      }
     });
 
     modal.present();
   }
 
   presentRegisterDelegateModal() {
-    const modal = this.modalCtrl.create('RegisterDelegatePage', null, { cssClass: 'inset-modal' });
+    const modal = this.modalCtrl.create('RegisterDelegatePage', null);
 
-    modal.onDidDismiss((name) => {
+    modal.onDidDismiss(({ name, fee }) => {
       if (lodash.isEmpty(name)) { return; }
 
       this.newDelegateName = name;
+      this.newDelegateFee = fee;
       this.onEnterPinCode = this.createDelegate;
       this.pinCode.open('PIN_CODE.TYPE_PIN_SIGN_TRANSACTION', true, true);
 
@@ -283,7 +292,7 @@ export class WalletDashboardPage implements OnInit, OnDestroy {
   }
 
   presentRegisterSecondPassphraseModal() {
-    const modal = this.modalCtrl.create('RegisterSecondPassphrasePage', null, { cssClass: 'inset-modal-large'});
+    const modal = this.modalCtrl.create('RegisterSecondPassphrasePage', null);
 
     modal.onDidDismiss((newSecondPassphrase) => {
       if (lodash.isEmpty(newSecondPassphrase)) { return; }
@@ -298,12 +307,14 @@ export class WalletDashboardPage implements OnInit, OnDestroy {
   }
 
   presentDeleteWalletConfirm() {
-    this.translateService.get(['ARE_YOU_SURE', 'CONFIRM', 'CANCEL', 'WALLETS_PAGE.REMOVE_WALLET_TEXT'])
+    this.translateService.get(
+        ['ARE_YOU_SURE', 'CONFIRM', 'CANCEL', 'WALLETS_PAGE.REMOVE_WALLET_TEXT', 'WALLETS_PAGE.REMOVE_WATCH_ONLY_WALLET_TEXT'])
       .takeUntil(this.unsubscriber$)
       .subscribe((translation) => {
         const confirm = this.alertCtrl.create({
           title: translation.ARE_YOU_SURE,
-          message: translation['WALLETS_PAGE.REMOVE_WALLET_TEXT'],
+          message: this.wallet.isWatchOnly ?
+            translation['WALLETS_PAGE.REMOVE_WATCH_ONLY_WALLET_TEXT'] : translation['WALLETS_PAGE.REMOVE_WALLET_TEXT'],
           buttons: [
             {
               text: translation.CANCEL
@@ -311,7 +322,8 @@ export class WalletDashboardPage implements OnInit, OnDestroy {
             {
               text: translation.CONFIRM,
               handler: () => {
-                this.deleteWallet();
+                this.onEnterPinCode = this.deleteWallet;
+                this.pinCode.open('PIN_CODE.TYPE_PIN_REMOVE_WALLET', false);
               }
             }
           ]
@@ -333,6 +345,7 @@ export class WalletDashboardPage implements OnInit, OnDestroy {
     this.arkApiProvider.api.transaction.createDelegate(transaction)
       .takeUntil(this.unsubscriber$)
       .subscribe((data) => {
+        data.fee = this.newDelegateFee;
         this.confirmTransaction.open(data, keys);
       });
   }
@@ -362,11 +375,11 @@ export class WalletDashboardPage implements OnInit, OnDestroy {
   }
 
   private deleteWallet() {
-    this.userDataProvider.removeWalletByAddress(this.wallet.address);
-    this.navCtrl.setRoot('WalletListPage');
+      this.userDataProvider.removeWalletByAddress(this.wallet.address);
+      this.navCtrl.setRoot('WalletListPage');
   }
 
-  private refreshTransactions(save: boolean = true, loader?: Loading) {
+  private refreshTransactions(save: boolean = true, loader?: Loading|Refresher) {
     this.zone.runOutsideAngular(() => {
       this.arkApiProvider.api.transaction.list({
         recipientId: this.address,
@@ -374,13 +387,19 @@ export class WalletDashboardPage implements OnInit, OnDestroy {
         orderBy: 'timestamp:desc',
       })
       .finally(() => this.zone.run(() => {
-        if (loader) { loader.dismiss(); }
+        if (loader) {
+          if (loader instanceof Loading) {
+            loader.dismiss();
+          } else if (loader instanceof Refresher) {
+            loader.complete();
+          }
+        }
         this.emptyTransactions = lodash.isEmpty(this.wallet.transactions);
       }))
       .takeUntil(this.unsubscriber$)
       .subscribe((response) => {
         if (response && response.success) {
-          this.wallet.loadTransactions(response.transactions);
+          this.wallet.loadTransactions(response.transactions, this.arkApiProvider.network);
           this.wallet.lastUpdate = new Date().getTime();
           this.wallet.isCold = lodash.isEmpty(response.transactions);
           if (save) { this.saveWallet(); }
@@ -397,6 +416,7 @@ export class WalletDashboardPage implements OnInit, OnDestroy {
     this.arkApiProvider.api.account.get({address: this.address}).takeUntil(this.unsubscriber$).subscribe((response) => {
       if (response.success) {
         this.wallet.deserialize(response.account);
+        this.saveWallet();
         if (this.wallet.isDelegate) {
           return;
         }
@@ -410,8 +430,7 @@ export class WalletDashboardPage implements OnInit, OnDestroy {
 
   private refreshAllData() {
     this.refreshAccount();
-    this.refreshTransactions(false);
-    this.saveWallet();
+    this.refreshTransactions();
   }
 
   private onUpdateMarket() {
